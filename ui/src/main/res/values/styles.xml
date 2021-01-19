@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme">
+        <item name="android:colorPrimary">#333333</item>
+    </style>
+
+    <style name="BaseDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <style name="BaseDialogNotDim" parent="BaseDialog">
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>
