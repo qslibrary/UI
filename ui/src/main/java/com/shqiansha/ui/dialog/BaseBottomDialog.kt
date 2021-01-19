@@ -8,12 +8,19 @@ import com.shqiansha.ui.R
 
 open class BaseBottomDialog : BottomSheetDialogFragment() {
     private var dim = true
+    private var scrollable=true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setStyle(
             STYLE_NO_TITLE,
             if (dim) R.style.BaseDialog else R.style.BaseDialogNotDim
         )
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        dialog?.window?.attributes?.windowAnimations = R.style.AnimBottomDialog
     }
 
     override fun onStart() {
@@ -32,12 +39,21 @@ open class BaseBottomDialog : BottomSheetDialogFragment() {
     }
 
     /**
+     * disable scroll
+     * note:use before onStart
+     */
+    fun disableScroll(){
+        scrollable=false
+    }
+
+    /**
      * scroll to max height if over the default height
      */
     private fun moveToTop() {
         view?.let {
             val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(it.parent as View)
             behavior.peekHeight = it.measuredHeight
+            if(!scrollable) behavior.isHideable=false
         }
     }
 }

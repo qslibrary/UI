@@ -12,4 +12,9 @@
     <style name="BaseDialogNotDim" parent="BaseDialog">
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="AnimBottomDialog">
+        <item name="android:windowEnterAnimation">@anim/bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_out</item>
+    </style>
 </resources>
