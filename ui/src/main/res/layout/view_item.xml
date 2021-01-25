@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <View
+        android:id="@+id/vTop"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#f3f3f3"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvItemLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            tools:text="最新版本"/>
+
+        <TextView
+            android:layout_marginStart="10dp"
+            android:id="@+id/tvItemRight"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="#999999"
+            android:gravity="end"
+            tools:text="v1.6"/>
+
+        <ImageView
+            android:layout_marginStart="4dp"
+            android:id="@+id/ivItemRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_right_12"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/vBottom"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#f3f3f3"/>
+</LinearLayout>
