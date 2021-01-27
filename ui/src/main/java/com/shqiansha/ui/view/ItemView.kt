@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.core.view.marginStart
 import com.shqiansha.ui.R
 import com.shqiansha.ui.util.SizeUtils
+import kotlinx.android.synthetic.main.view_item.view.*
 
 class ItemView : FrameLayout {
     var leftText = ""
@@ -34,6 +35,8 @@ class ItemView : FrameLayout {
     var linePadding = 0f
     var lineStartPadding = 0f
     var lineEndPadding = 0f
+
+
 
     companion object {
         private val LEFT_TEXT_COLOR_DEFAULT = Color.parseColor("#333333")
@@ -118,5 +121,13 @@ class ItemView : FrameLayout {
         bottomLineParams.marginStart=lineStartPadding.toInt()
         bottomLineParams.marginEnd=lineEndPadding.toInt()
         addView(view)
+    }
+
+    fun getLeftTextView():TextView{
+        return tvItemLeft
+    }
+
+    fun getRightTextView():TextView{
+        return tvItemRight
     }
 }
