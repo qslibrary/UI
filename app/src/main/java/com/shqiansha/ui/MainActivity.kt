@@ -37,5 +37,8 @@ class MainActivity :AppCompatActivity(){
             picker.title="请选择"
             picker.show(supportFragmentManager,"picker")
         }
+        uivTest.setOnClickListener {
+
+        }
     }
 }

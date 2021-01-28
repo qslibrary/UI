@@ -1,8 +1,10 @@
 package com.shqiansha.ui.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -121,6 +123,10 @@ class ItemView : FrameLayout {
         bottomLineParams.marginStart=lineStartPadding.toInt()
         bottomLineParams.marginEnd=lineEndPadding.toInt()
         addView(view)
+
+        val backgroundValue=TypedValue()
+        context.theme.resolveAttribute(android.R.attr.selectableItemBackground,backgroundValue,true)
+        foreground=context.getDrawable(backgroundValue.resourceId)
     }
 
     fun getLeftTextView():TextView{
