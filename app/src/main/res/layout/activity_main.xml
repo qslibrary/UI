@@ -32,6 +32,13 @@
         android:id="@+id/tvPicker"
         android:padding="20dp"
         android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="popupOption"
+        android:id="@+id/poOption"
+        android:padding="20dp"
+        android:gravity="center"/>
     <com.shqiansha.ui.view.ItemView
         android:id="@+id/uivTest"
         android:layout_width="match_parent"

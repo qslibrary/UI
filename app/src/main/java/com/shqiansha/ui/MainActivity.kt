@@ -1,11 +1,13 @@
 package com.shqiansha.ui
 
 import android.os.Bundle
+import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 import com.shqiansha.ui.dialog.ConfirmationDialog
 import com.shqiansha.ui.dialog.OptionDialog
 import com.shqiansha.ui.dialog.PickerDialog
 import com.shqiansha.ui.dialog.PictureSelectionDialog
+import com.shqiansha.ui.popup.OptionPopup
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity :AppCompatActivity(){
@@ -36,6 +38,14 @@ class MainActivity :AppCompatActivity(){
             val picker=PickerDialog(arrayOf("1111","22222","33333","44444","55555","55556","555557","555558","555559"),1)
             picker.title="请选择"
             picker.show(supportFragmentManager,"picker")
+        }
+        poOption.setOnClickListener {
+            val popup=OptionPopup(poOption, arrayOf("1","2","3","4"),200)
+//            popup.setItemGravity(Gravity.START)
+            popup.setOnOptionSelectListener {
+
+            }
+            popup.show()
         }
         uivTest.setOnClickListener {
 
