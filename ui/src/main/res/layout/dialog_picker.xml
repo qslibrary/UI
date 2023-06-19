@@ -39,7 +39,7 @@
             tools:text="确定"
             android:layout_gravity="end|center_horizontal"/>
     </FrameLayout>
-    <com.contrarywind.view.WheelView
+    <com.shqiansha.ui.view.wheel.WheelView
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:id="@+id/wvPicker"

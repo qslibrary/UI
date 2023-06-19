@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.contrarywind.adapter.WheelAdapter
 import com.shqiansha.ui.R
+import com.shqiansha.ui.view.wheel.WheelAdapter
 import kotlinx.android.synthetic.main.dialog_picker.*
 import kotlinx.android.synthetic.main.dialog_picker.tvDialogCancel
 import kotlinx.android.synthetic.main.dialog_picker.tvDialogConfirm
@@ -103,7 +103,7 @@ class PickerDialog : BaseBottomDialog {
         fun onClick()
     }
 
-    class PickerAdapter(val data: List<String>) : WheelAdapter<String> {
+    class PickerAdapter(private val data: List<String>) : WheelAdapter<String> {
         override fun indexOf(o: String?): Int {
             return data.indexOf(o)
         }
