@@ -31,12 +31,13 @@
             android:textColor="#666666"
             android:textSize="14sp"
             tools:text="subtitle" />
+
         <TextView
-            android:layout_marginTop="4dp"
             android:id="@+id/tvDialogHint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
             android:textColor="#aaaaaa"
             android:textSize="14sp"
             tools:text="说明～" />
@@ -47,11 +48,11 @@
         android:layout_height="1px" />
 
     <LinearLayout
-        android:layout_marginTop="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:divider="@drawable/ui_divider_horizontal_10"
         android:orientation="horizontal"
-        android:divider="@drawable/divider_horizontal_10"
         android:showDividers="middle">
 
         <TextView
@@ -59,7 +60,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/selector_bg_dialog_cancel"
+            android:background="@drawable/ui_shape_cancel"
+            android:foreground="?selectableItemBackground"
             android:gravity="center"
             android:padding="10dp"
             android:text="取消"
@@ -72,12 +74,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/ui_shape_confirm"
+            android:foreground="?selectableItemBackground"
             android:gravity="center"
             android:padding="10dp"
             android:text="确认"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:background="@drawable/selector_bg_dialog_confirm"/>
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

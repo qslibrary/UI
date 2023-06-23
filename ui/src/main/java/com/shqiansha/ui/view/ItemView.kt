@@ -48,7 +48,7 @@ class ItemView : FrameLayout {
             typedArray.getColor(R.styleable.ItemView_rightTextColor, RIGHT_TEXT_COLOR_DEFAULT)
 
         val rightImage =
-            typedArray.getResourceId(R.styleable.ItemView_rightImage, R.drawable.ic_arrow_right_12)
+            typedArray.getResourceId(R.styleable.ItemView_rightImage, R.drawable.ui_ic_arrow_right)
         val rightImageSize = typedArray.getDimension(R.styleable.ItemView_rightImageSize, 12f)
 
         val showRightText = typedArray.getBoolean(R.styleable.ItemView_showRightText, true)

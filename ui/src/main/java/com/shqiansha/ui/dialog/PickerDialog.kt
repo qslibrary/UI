@@ -4,15 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.shqiansha.ui.R
+import com.shqiansha.ui.UIConfig
+import com.shqiansha.ui.databinding.DialogPickerBinding
 import com.shqiansha.ui.view.wheel.WheelAdapter
-import kotlinx.android.synthetic.main.dialog_picker.*
-import kotlinx.android.synthetic.main.dialog_picker.tvDialogCancel
-import kotlinx.android.synthetic.main.dialog_picker.tvDialogConfirm
-import kotlinx.android.synthetic.main.dialog_picker.tvDialogTitle
 
 class PickerDialog : BaseBottomDialog {
-
     constructor(values: Array<String>, selectedValue: String? = null) {
         adapter = PickerAdapter(values.toList())
         this.selectedPosition = values.indexOf(selectedValue)
@@ -23,8 +19,8 @@ class PickerDialog : BaseBottomDialog {
         this.selectedPosition = selectedPosition
     }
 
+    private val adapter: PickerAdapter
     var selectedPosition = 0
-    val adapter: PickerAdapter
     var confirmationText: CharSequence = "确定"
     var cancelText: CharSequence = "取消"
     var title: CharSequence = ""
@@ -39,6 +35,8 @@ class PickerDialog : BaseBottomDialog {
      */
     var cyclic = false
 
+    private var binding: DialogPickerBinding? = null
+
     private var onClickConfirmationListener: OnClickConfirmationListener? = null
     private var onClickCancelListener: OnClickCancelListener? = null
 
@@ -51,55 +49,50 @@ class PickerDialog : BaseBottomDialog {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_picker, container, false)
+        binding = DialogPickerBinding.inflate(inflater)
+        return binding?.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView()
     }
 
     private fun initView() {
-        wvPicker.adapter = adapter
-        wvPicker.setCyclic(cyclic)
+        binding?.run {
+            wvPicker.adapter = adapter
+            wvPicker.setCyclic(cyclic)
+            wvPicker.currentItem = selectedPosition
+            tvDialogCancel.text = cancelText
+            tvDialogConfirm.text = confirmationText
+            tvDialogConfirm.setTextColor(UIConfig.colorPrimary)
+            tvDialogTitle.text = title
 
-        wvPicker.currentItem = selectedPosition
-        tvDialogCancel.text = cancelText
-        tvDialogConfirm.text = confirmationText
-        tvDialogTitle.text = title
-
-        tvDialogConfirm.setOnClickListener {
-            val position = wvPicker.currentItem
-            onClickConfirmationListener?.onClick(position, adapter.getItem(position))
-            if (autoDismiss) dismiss()
-        }
-        tvDialogCancel.setOnClickListener {
-            onClickCancelListener?.onClick()
-            if (autoDismiss) dismiss()
-        }
-    }
-
-    fun setOnClickConfirmationListener(listener: (position: Int, value: String) -> Unit) {
-        onClickConfirmationListener = object : OnClickConfirmationListener {
-            override fun onClick(position: Int, value: String) {
-                listener.invoke(position, value)
+            tvDialogConfirm.setOnClickListener {
+                val position = wvPicker.currentItem
+                onClickConfirmationListener?.onClick(position, adapter.getItem(position))
+                if (autoDismiss) dismiss()
+            }
+            tvDialogCancel.setOnClickListener {
+                onClickCancelListener?.onClick()
+                if (autoDismiss) dismiss()
             }
         }
     }
 
-    fun setOnClickCancelListener(listener: () -> Unit) {
-        onClickCancelListener = object : OnClickCancelListener {
-            override fun onClick() {
-                listener.invoke()
-            }
-        }
+    fun setOnClickConfirmationListener(listener: OnClickConfirmationListener) = apply {
+        onClickConfirmationListener = listener
     }
 
-    interface OnClickConfirmationListener {
+    fun setOnClickCancelListener(listener: OnClickCancelListener) = apply {
+        onClickCancelListener = listener
+    }
+
+    fun interface OnClickConfirmationListener {
         fun onClick(position: Int, value: String)
     }
 
-    interface OnClickCancelListener {
+    fun interface OnClickCancelListener {
         fun onClick()
     }
 
@@ -115,6 +108,5 @@ class PickerDialog : BaseBottomDialog {
         override fun getItem(index: Int): String {
             return data[index]
         }
-
     }
 }

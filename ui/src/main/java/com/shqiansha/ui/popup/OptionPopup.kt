@@ -1,5 +1,6 @@
 package com.shqiansha.ui.popup
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -8,11 +9,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shqiansha.ui.R
-import com.shqiansha.ui.dialog.OptionDialog
+import com.shqiansha.ui.UIConfig
 
+class OptionPopup(
+    bindView: View,
+    val values: Array<String>,
+    val default: String = "",
+    val maxWidth: Int = 0
+) : BasePopup(R.layout.popup_option, bindView) {
 
-class OptionPopup(bindView: View, val values: Array<String>, val maxWidth: Int = 0) :
-    BasePopup(R.layout.popup_option, bindView) {
     private val view by lazy { contentView }
     private val adapter = OptionAdapter()
     private var onOptionSelectListener: OnOptionSelectListener? = null
@@ -23,7 +28,7 @@ class OptionPopup(bindView: View, val values: Array<String>, val maxWidth: Int =
     }
 
     private fun initState() {
-        setAutoShowDarkBackground(false)
+        setAutoShowDarkBackground(true)
     }
 
     private fun initView() {
@@ -32,42 +37,26 @@ class OptionPopup(bindView: View, val values: Array<String>, val maxWidth: Int =
             rvOption.layoutParams.width = maxWidth
             width = maxWidth
         }
+        adapter.default = default
         rvOption.adapter = adapter
-        adapter.onItemClickListener = object : OptionHolder.OnItemClickListener {
-            override fun onClick(view: View, position: Int) {
-                onOptionSelectListener?.onSelect(adapter.data[position])
-                dismiss()
-            }
+        adapter.onItemClickListener = OptionHolder.OnItemClickListener { view, position ->
+            onOptionSelectListener?.onSelect(adapter.data[position])
+            dismiss()
         }
         adapter.updateData(values.toList())
     }
 
-    fun setItemGravity(gravity: Int) {
-        adapter.gravity = gravity
-    }
+    fun setItemGravity(gravity: Int) = apply { adapter.textGravity = gravity }
+    fun setItemTextColor(color: Int) = apply { adapter.textColor = color }
 
-    fun setItemTextColor(color: Int) {
-        adapter.color = color
-    }
-
-    fun setOnOptionSelectListener(listener: OnOptionSelectListener): OptionPopup {
-        this.onOptionSelectListener = listener
-        return this
-    }
-
-    fun setOnOptionSelectListener(listener: (value: String) -> Unit) {
-        this.onOptionSelectListener = object : OnOptionSelectListener {
-            override fun onSelect(value: String) {
-                listener.invoke(value)
-            }
-        }
-    }
+    fun setOnOptionSelectListener(listener: OnOptionSelectListener) =
+        apply { this.onOptionSelectListener = listener }
 
     class OptionAdapter : RecyclerView.Adapter<OptionHolder>() {
-        var gravity = Gravity.CENTER
-        var color = Color.parseColor("#333333")
-
+        var textGravity = Gravity.START
+        var textColor = Color.parseColor("#333333")
         val data = arrayListOf<String>()
+        var default = ""
         var onItemClickListener: OptionHolder.OnItemClickListener? = null
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionHolder {
             return OptionHolder(
@@ -82,14 +71,21 @@ class OptionPopup(bindView: View, val values: Array<String>, val maxWidth: Int =
 
         override fun onBindViewHolder(holder: OptionHolder, position: Int) {
             val backgroundRes =
-                if (position == data.size - 1) R.drawable.selector_bg_ffffff_f5f5f5_10_bottom else R.drawable.selector_bg_ffffff_f5f5f5
+                if (position == data.size - 1) R.drawable.ui_selector_bg_ffffff_f5f5f5_10_bottom else R.drawable.ui_selector_bg_ffffff_f5f5f5
             val item = data[position]
-            holder.tvOption.text = item
-            holder.tvOption.setBackgroundResource(backgroundRes)
-            holder.tvOption.gravity = gravity
-            holder.tvOption.setTextColor(color)
+            holder.tvOption.run {
+                text = item
+                setBackgroundResource(backgroundRes)
+                gravity = textGravity
+                if (item == default) {
+                    setTextColor(UIConfig.colorPrimary)
+                } else {
+                    setTextColor(textColor)
+                }
+            }
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         fun updateData(list: List<String>) {
             data.clear()
             data.addAll(list)
@@ -99,22 +95,22 @@ class OptionPopup(bindView: View, val values: Array<String>, val maxWidth: Int =
 
     class OptionHolder(view: View, private val onItemClickListener: OnItemClickListener?) :
         RecyclerView.ViewHolder(view), View.OnClickListener {
-        val tvOption = view.findViewById<TextView>(R.id.tvOption)
+        val tvOption: TextView = view.findViewById(R.id.tvOption)
 
         init {
-            tvOption.setOnClickListener(this)
+            view.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
             v?.let { onItemClickListener?.onClick(it, adapterPosition) }
         }
 
-        interface OnItemClickListener {
+        fun interface OnItemClickListener {
             fun onClick(view: View, position: Int)
         }
     }
 
-    interface OnOptionSelectListener {
+    fun interface OnOptionSelectListener {
         fun onSelect(value: String)
     }
 }

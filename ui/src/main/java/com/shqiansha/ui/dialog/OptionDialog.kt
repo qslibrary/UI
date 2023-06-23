@@ -1,5 +1,6 @@
 package com.shqiansha.ui.dialog
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shqiansha.ui.R
-import kotlinx.android.synthetic.main.dialog_option.*
+import com.shqiansha.ui.databinding.DialogOptionBinding
 
 /**
  * 底部选项dialog
@@ -16,11 +17,10 @@ import kotlinx.android.synthetic.main.dialog_option.*
 open class OptionDialog : BaseBottomDialog() {
     private val adapter = OptionAdapter()
     private var onOptionSelectListener: OnOptionSelectListener? = null
-    private var mTag = "optionDialog"
     private var values: Array<String> = arrayOf()
     private var title: String = "请选择"
-    private var mFragmentManager: FragmentManager? = null
     var autoDismiss = true
+    private var binding: DialogOptionBinding? = null
 
 
     override fun onCreateView(
@@ -28,80 +28,38 @@ open class OptionDialog : BaseBottomDialog() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_option, container, false)
+        binding = DialogOptionBinding.inflate(inflater)
+        return binding?.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView()
     }
 
     private fun initView() {
-        tvDialogCancel.setOnClickListener { dismiss() }
-        tvDialogTitle.text = title
-        rvOption.adapter = adapter
+        binding?.run {
+            tvDialogCancel.setOnClickListener { dismiss() }
+            tvDialogTitle.text = title
+            rvOption.adapter = adapter
+        }
         onOptionSelectListener?.let {
-            adapter.onItemClickListener = object : OptionHolder.OnItemClickListener {
-                override fun onClick(view: View, position: Int) {
-                    onOptionSelectListener?.onSelect(adapter.data[position])
-                    if (autoDismiss) dismiss()
-                }
+            adapter.onItemClickListener = OptionHolder.OnItemClickListener { _, position ->
+                onOptionSelectListener?.onSelect(adapter.data[position])
+                if (autoDismiss) dismiss()
             }
         }
         adapter.updateData(values.toList())
     }
 
-    fun setTag(tag: String): OptionDialog {
-        mTag = tag
-        return this
-    }
+    fun setValues(values: Array<String>) = apply { this.values = values }
+    fun setTitle(title: String) = apply { this.title = title }
 
-    fun setValues(values: Array<String>): OptionDialog {
-        this.values = values
-        return this
-    }
-
-    fun setTitle(title: String): OptionDialog {
-        this.title = title
-        return this
-    }
-
-    fun setFragmentManager(fragmentManager: FragmentManager): OptionDialog {
-        this.mFragmentManager = fragmentManager
-        return this
-    }
-
-    fun setOnOptionSelectListener(listener: OnOptionSelectListener): OptionDialog {
-        this.onOptionSelectListener = listener
-        return this
-    }
-
-    fun setOnOptionSelectListener(listener: (value:String)->Unit){
-        this.onOptionSelectListener=object :OnOptionSelectListener{
-            override fun onSelect(value: String) {
-                listener.invoke(value)
-            }
-        }
-    }
+    fun setOnOptionSelectListener(listener: OnOptionSelectListener) =
+        apply { this.onOptionSelectListener = listener }
 
     fun show(manager: FragmentManager) {
-        show(manager, mTag)
-    }
-
-    fun show(manager: FragmentManager, values: Array<String>) {
-        this.values = values
-        show(manager)
-    }
-
-    fun show() {
-        mFragmentManager?.let {
-            show(it)
-        }
-    }
-
-    fun show(listener: OnOptionSelectListener) {
-        setOnOptionSelectListener(listener)
-        show()
+        show(manager, "optionDialog")
     }
 
     class OptionAdapter : RecyclerView.Adapter<OptionHolder>() {
@@ -120,13 +78,14 @@ open class OptionDialog : BaseBottomDialog() {
 
         override fun onBindViewHolder(holder: OptionHolder, position: Int) {
             val backgroundRes =
-                if (position == data.size - 1) R.drawable.selector_bg_ffffff_f5f5f5_10_bottom else R.drawable.selector_bg_ffffff_f5f5f5
+                if (position == data.size - 1) R.drawable.ui_selector_bg_ffffff_f5f5f5_10_bottom else R.drawable.ui_selector_bg_ffffff_f5f5f5
             val item = data[position]
             holder.tvOption.text = item
             holder.tvOption.setBackgroundResource(backgroundRes)
 
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         fun updateData(list: List<String>) {
             data.clear()
             data.addAll(list)
@@ -136,7 +95,7 @@ open class OptionDialog : BaseBottomDialog() {
 
     class OptionHolder(view: View, private val onItemClickListener: OnItemClickListener?) :
         RecyclerView.ViewHolder(view), View.OnClickListener {
-        val tvOption = view.findViewById<TextView>(R.id.tvOption)
+        val tvOption: TextView = view.findViewById(R.id.tvOption)
 
         init {
             tvOption.setOnClickListener(this)
@@ -146,13 +105,12 @@ open class OptionDialog : BaseBottomDialog() {
             v?.let { onItemClickListener?.onClick(it, adapterPosition) }
         }
 
-        interface OnItemClickListener {
+        fun interface OnItemClickListener {
             fun onClick(view: View, position: Int)
         }
     }
 
-
-    interface OnOptionSelectListener {
+    fun interface OnOptionSelectListener {
         fun onSelect(value: String)
     }
 }

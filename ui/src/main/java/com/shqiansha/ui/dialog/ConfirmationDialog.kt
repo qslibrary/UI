@@ -5,11 +5,12 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.shqiansha.ui.R
 import com.shqiansha.ui.UIConfig
-import kotlinx.android.synthetic.main.dialog_confirm.*
+import com.shqiansha.ui.databinding.DialogConfirmBinding
 
 class ConfirmationDialog : DialogFragment() {
     var title: CharSequence = ""
@@ -24,76 +25,73 @@ class ConfirmationDialog : DialogFragment() {
 
     private var onClickConfirmationListener: OnClickConfirmationListener? = null
     private var onClickCancelListener: OnClickCancelListener? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        setStyle(STYLE_NO_TITLE, R.style.BaseDialog)
-    }
+
+    private var binding: DialogConfirmBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_confirm, container, false)
+        binding = DialogConfirmBinding.inflate(inflater)
+        return binding?.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initStyle()
         initView()
     }
 
     private fun initView() {
-        tvDialogTitle.text = title
-        tvDialogMessage.text = message
-        tvDialogConfirm.text = confirmationText
-        tvDialogCancel.text = cancelText
-        tvDialogConfirm.setOnClickListener {
-            onClickConfirmationListener?.onClick(it)
-            if(autoDismiss) dismiss()
-        }
-        tvDialogCancel.setOnClickListener {
-            onClickCancelListener?.onClick(it)
-            if(autoDismiss) dismiss()
+        binding?.run {
+            tvDialogTitle.text = title
+            tvDialogMessage.text = message
+            tvDialogConfirm.text = confirmationText
+            tvDialogCancel.text = cancelText
+            tvDialogConfirm.setOnClickListener {
+                onClickConfirmationListener?.onClick(it)
+                if (autoDismiss) dismiss()
+            }
+            tvDialogCancel.setOnClickListener {
+                onClickCancelListener?.onClick(it)
+                if (autoDismiss) dismiss()
+            }
         }
     }
 
     private fun initStyle() {
-        tvDialogConfirm.setBackgroundResource(UIConfig.dialog_confirm_background)
-        tvDialogCancel.setBackgroundResource(UIConfig.dialog_cancel_background)
-        tvDialogTitle.gravity = titleGravity
-        tvDialogMessage.gravity = messageGravity
-        if (title.isEmpty()) tvDialogTitle.visibility = View.GONE
-        if (message.isEmpty()) tvDialogMessage.visibility = View.GONE
-        if (hint.isEmpty()) tvDialogHint.visibility = View.GONE
-        if (hideCancel) tvDialogCancel.visibility = View.GONE
-    }
-
-    fun show(manager: FragmentManager){
-        show(manager,"ConfirmationDialog")
-    }
-
-    fun setOnClickConfirmationListener(listener: (view: View) -> Unit) {
-        onClickConfirmationListener = object : OnClickConfirmationListener {
-            override fun onClick(view: View) {
-                listener.invoke(view)
+        val context = context ?: return
+        binding?.run {
+            ContextCompat.getDrawable(context, R.drawable.ui_shape_confirm)?.let {
+                it.setTint(UIConfig.colorPrimary)
+                tvDialogConfirm.background = it
             }
+            tvDialogTitle.gravity = titleGravity
+            tvDialogMessage.gravity = messageGravity
+            if (title.isEmpty()) tvDialogTitle.visibility = View.GONE
+            if (message.isEmpty()) tvDialogMessage.visibility = View.GONE
+            if (hint.isEmpty()) tvDialogHint.visibility = View.GONE
+            if (hideCancel) tvDialogCancel.visibility = View.GONE
         }
     }
 
-    fun setOnClickCancelListener(listener: (view: View) -> Unit){
-        onClickCancelListener = object : OnClickCancelListener {
-            override fun onClick(view: View) {
-                listener.invoke(view)
-            }
-        }
+    fun show(manager: FragmentManager) {
+        show(manager, "ConfirmationDialog")
     }
 
-    interface OnClickConfirmationListener {
+    fun setOnClickCancelListener(listener: OnClickCancelListener) =
+        apply { onClickCancelListener = listener }
+
+    fun setOnClickConfirmationListener(listener: OnClickConfirmationListener) = apply {
+        onClickConfirmationListener = listener
+    }
+
+    fun interface OnClickConfirmationListener {
         fun onClick(view: View)
     }
 
-    interface OnClickCancelListener {
+    fun interface OnClickCancelListener {
         fun onClick(view: View)
     }
 }

@@ -1,50 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
+        android:id="@+id/ppTwoLayerOption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="选项弹窗"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="ppTwoLayerOption" />
+
+    <TextView
+        android:id="@+id/ppMultiOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="multiPopupOption" />
+
+    <TextView
         android:id="@+id/tvOption"
-        android:padding="20dp"
-        android:gravity="center"/>
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="确认弹窗"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="选项弹窗" />
+
+    <TextView
         android:id="@+id/tvConfirm"
-        android:padding="20dp"
-        android:gravity="center"/>
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="图片选则弹窗"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="确认弹窗" />
+
+    <TextView
         android:id="@+id/tvPicture"
-        android:padding="20dp"
-        android:gravity="center"/>
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="picker弹窗"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="图片选则弹窗" />
+
+    <TextView
         android:id="@+id/tvPicker"
-        android:padding="20dp"
-        android:gravity="center"/>
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="popupOption"
-        android:id="@+id/poOption"
+        android:gravity="center"
         android:padding="20dp"
-        android:gravity="center"/>
+        android:text="picker弹窗" />
+
+    <TextView
+        android:id="@+id/poOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="popupOption" />
+
     <com.shqiansha.ui.view.ItemView
         android:id="@+id/uivTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:showRightText="false"
-        app:showRightImage="true"
         app:leftText="你好"
-        app:rightText="你好"/>
+        app:rightText="你好"
+        app:showRightImage="true"
+        app:showRightText="false" />
 </LinearLayout>
