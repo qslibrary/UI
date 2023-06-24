@@ -13,9 +13,9 @@ import com.shqiansha.ui.UIConfig
 
 class OptionPopup(
     bindView: View,
-    val values: Array<String>,
-    val default: String = "",
-    val maxWidth: Int = 0
+    private val values: List<String>,
+    private val selected: String = "",
+    private val maxWidth: Int = 0
 ) : BasePopup(R.layout.popup_option, bindView) {
 
     private val view by lazy { contentView }
@@ -37,13 +37,13 @@ class OptionPopup(
             rvOption.layoutParams.width = maxWidth
             width = maxWidth
         }
-        adapter.default = default
+        adapter.selected = selected
         rvOption.adapter = adapter
         adapter.onItemClickListener = OptionHolder.OnItemClickListener { view, position ->
             onOptionSelectListener?.onSelect(adapter.data[position])
             dismiss()
         }
-        adapter.updateData(values.toList())
+        adapter.updateData(values)
     }
 
     fun setItemGravity(gravity: Int) = apply { adapter.textGravity = gravity }
@@ -56,7 +56,7 @@ class OptionPopup(
         var textGravity = Gravity.START
         var textColor = Color.parseColor("#333333")
         val data = arrayListOf<String>()
-        var default = ""
+        var selected = ""
         var onItemClickListener: OptionHolder.OnItemClickListener? = null
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionHolder {
             return OptionHolder(
@@ -77,7 +77,7 @@ class OptionPopup(
                 text = item
                 setBackgroundResource(backgroundRes)
                 gravity = textGravity
-                if (item == default) {
+                if (item == selected) {
                     setTextColor(UIConfig.colorPrimary)
                 } else {
                     setTextColor(textColor)

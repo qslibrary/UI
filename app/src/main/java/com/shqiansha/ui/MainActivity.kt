@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                 picker.show(supportFragmentManager, "picker")
             }
             poOption.setOnClickListener {
-                val popup = OptionPopup(poOption, arrayOf("1", "2", "3", "4"), "3")
+                val popup = OptionPopup(poOption, arrayListOf("1", "2", "3", "4"), "3")
 
                 popup.setOnOptionSelectListener {
 
@@ -68,25 +68,17 @@ class MainActivity : AppCompatActivity() {
             }
             ppMultiOption.setOnClickListener {
                 val popup =
-                    MultiOptionPopup(ppMultiOption, arrayOf("1", "2", "3", "4"), arrayOf("1", "2"))
+                    MultiOptionPopup(
+                        ppMultiOption,
+                        arrayListOf("1", "2", "3", "4"),
+                        arrayListOf("1", "2")
+                    )
                 popup.show()
             }
             ppTwoLayerOption.setOnClickListener {
-                val map = mutableMapOf<String, Array<String>>()
-                map["全球"] = arrayOf()
-                map["全球1"] = arrayOf()
-                map["全球2"] = arrayOf()
-                map["全球3"] = arrayOf()
-                map["全球4"] = arrayOf()
-                map["全球5"] = arrayOf()
-                map["全球6"] = arrayOf()
-                map["全球7"] = arrayOf()
-                map["全球8"] = arrayOf()
-                map["全球9"] = arrayOf()
-                map["全球10"] = arrayOf()
-                map["全球11"] = arrayOf()
-                map["全球12"] = arrayOf()
-                map["中国"] = arrayOf(
+                val map = mutableMapOf<String, List<String>>()
+                map["全球"] = emptyList()
+                map["中国"] = arrayListOf(
                     "中国(所有地区)",
                     "上海",
                     "北京",
@@ -96,8 +88,12 @@ class MainActivity : AppCompatActivity() {
                     "武汉",
                     "天津"
                 )
-                map["英国"] = arrayOf("英格兰")
-                val popup = TwoLayerOptionPopup(ppTwoLayerOption, map,"四川")
+                map["英国"] = arrayListOf("英格兰")
+                val text = ppTwoLayerOption.text.toString()
+                val popup = TwoLayerOptionPopup(ppTwoLayerOption, map, text)
+                popup.setOnOptionSelectListener {
+                    ppTwoLayerOption.text = it
+                }
                 popup.show()
             }
             uivTest.setOnClickListener {

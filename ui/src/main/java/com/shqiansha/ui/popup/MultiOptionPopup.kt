@@ -15,8 +15,8 @@ import com.shqiansha.ui.UIConfig
 
 class MultiOptionPopup(
     bindView: View,
-    private val values: Array<String>,
-    private val selected: Array<String> = arrayOf(),
+    private val values: List<String>,
+    private val selected: List<String> = emptyList(),
 ) : BasePopup(R.layout.popup_option_multi, bindView) {
 
     private val view by lazy { contentView }
@@ -53,7 +53,7 @@ class MultiOptionPopup(
         adapter.onItemClickListener = OptionHolder.OnItemClickListener { _, position ->
             adapter.switchSelected(position)
         }
-        adapter.updateData(values.toList(), selected.toList())
+        adapter.updateData(values, selected)
     }
 
     fun setItemTextColor(color: Int) = apply { adapter.color = color }

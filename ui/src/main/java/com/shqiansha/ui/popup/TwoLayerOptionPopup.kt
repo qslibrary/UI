@@ -14,7 +14,7 @@ import com.shqiansha.ui.UIConfig
 
 class TwoLayerOptionPopup(
     bindView: View,
-    private val values: Map<String, Array<String>>,
+    private val values: Map<String, List<String>>,
     private val selected: String = "",
 ) : BasePopup(R.layout.popup_option_two_layer, bindView) {
 
@@ -39,13 +39,13 @@ class TwoLayerOptionPopup(
         rvOption.adapter = adapter
         rvOption.layoutManager = LinearLayoutManager(view.context)
         adapter.onItemClickListener = OptionHolder.OnItemClickListener { _, position ->
-            val subData = values[adapter.getItem(position)] ?: arrayOf()
+            val subData = values[adapter.getItem(position)] ?: emptyList()
             if (subData.isEmpty()) {
                 onOptionSelectListener?.onSelect(adapter.getItem(position))
                 dismiss()
             } else {
                 adapter.setSelected(position)
-                subAdapter.updateData(subData.toList())
+                subAdapter.updateData(subData)
             }
         }
         adapter.textGravity = Gravity.CENTER
@@ -54,7 +54,7 @@ class TwoLayerOptionPopup(
         rvSubOption.adapter = subAdapter
         rvSubOption.layoutManager = LinearLayoutManager(view.context)
         subAdapter.onItemClickListener = OptionHolder.OnItemClickListener { _, position ->
-            onOptionSelectListener?.onSelect(adapter.getItem(position))
+            onOptionSelectListener?.onSelect(subAdapter.getItem(position))
             dismiss()
         }
     }
@@ -68,12 +68,12 @@ class TwoLayerOptionPopup(
                 view.findViewById<RecyclerView>(R.id.rvOption).scrollToPosition(i)
                 return
             } else {
-                val items = values[key] ?: arrayOf()
+                val items = values[key] ?: emptyList()
                 for ((j, item) in items.withIndex()) {
                     if (item == selected) {
                         adapter.setSelected(i)
                         view.findViewById<RecyclerView>(R.id.rvOption).scrollToPosition(i)
-                        subAdapter.updateData(items.toList())
+                        subAdapter.updateData(items)
                         subAdapter.setSelected(j)
                         view.findViewById<RecyclerView>(R.id.rvSubOption).scrollToPosition(j)
                         return
