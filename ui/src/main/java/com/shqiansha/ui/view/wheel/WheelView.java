@@ -39,7 +39,7 @@ public class WheelView extends View {
 
     private static final String[] TIME_NUM = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09"};
 
-    private WheelView.DividerType dividerType;//分隔线类型
+    private DividerType dividerType;//分隔线类型
 
     private Context context;
     private Handler handler;
@@ -251,9 +251,9 @@ public class WheelView extends View {
         itemHeight = lineSpacingMultiplier * maxTextHeight;
     }
 
-    public void smoothScroll(WheelView.ACTION action) {//平滑滚动的实现
+    public void smoothScroll(ACTION action) {//平滑滚动的实现
         cancelFuture();
-        if (action == WheelView.ACTION.FLING || action == WheelView.ACTION.DRAG) {
+        if (action == ACTION.FLING || action == ACTION.DRAG) {
             mOffset = (int) ((totalScrollY % itemHeight + itemHeight) % itemHeight);
             if ((float) mOffset > itemHeight / 2.0F) {//如果超过Item高度的一半，滚动到下一个Item去
                 mOffset = (int) (itemHeight - (float) mOffset);
@@ -395,7 +395,7 @@ public class WheelView extends View {
 
 
         //绘制中间两条横线
-        if (dividerType == WheelView.DividerType.WRAP) {//横线长度仅包裹内容
+        if (dividerType == DividerType.WRAP) {//横线长度仅包裹内容
             float startX;
             float endX;
 
@@ -411,7 +411,7 @@ public class WheelView extends View {
             endX = measuredWidth - startX;
             canvas.drawLine(startX, firstLineY, endX, firstLineY, paintIndicator);
             canvas.drawLine(startX, secondLineY, endX, secondLineY, paintIndicator);
-        } else if (dividerType == WheelView.DividerType.CIRCLE) {
+        } else if (dividerType == DividerType.CIRCLE) {
             //分割线为圆圈形状
             paintIndicator.setStyle(Paint.Style.STROKE);
             paintIndicator.setStrokeWidth(dividerWidth);
@@ -722,10 +722,10 @@ public class WheelView extends View {
 
                     if ((System.currentTimeMillis() - startTime) > 120) {
                         // 处理拖拽事件
-                        smoothScroll(WheelView.ACTION.DRAG);
+                        smoothScroll(ACTION.DRAG);
                     } else {
                         // 处理条目点击事件
-                        smoothScroll(WheelView.ACTION.CLICK);
+                        smoothScroll(ACTION.CLICK);
                     }
                 }
                 break;
@@ -797,7 +797,7 @@ public class WheelView extends View {
         paintIndicator.setColor(dividerColor);
     }
 
-    public void setDividerType(WheelView.DividerType dividerType) {
+    public void setDividerType(DividerType dividerType) {
         this.dividerType = dividerType;
     }
 

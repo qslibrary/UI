@@ -51,7 +51,7 @@ public class BasePopup extends PopupWindow {
         this.setContentView(view);
         this.setHeight(-2);
         this.setWidth(-1);
-        this.setOnDismissListener(new android.widget.PopupWindow.OnDismissListener() {
+        this.setOnDismissListener(new PopupWindow.OnDismissListener() {
             public void onDismiss() {
                 if (autoShowDarkBackground) hideDarkView();
                 if (onDismissListener != null) {

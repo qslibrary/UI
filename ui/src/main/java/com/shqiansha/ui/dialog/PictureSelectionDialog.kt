@@ -6,7 +6,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -14,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import com.yalantis.ucrop.UCrop
 import java.io.File
 
 /**
@@ -125,7 +123,8 @@ class PictureSelectionDialog(authority: String) : OptionDialog() {
 
         fun navToGallery() {
             if (isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 intent.type = "image/*"
                 startActivity(intent, RC_GALLERY)
             } else {
@@ -140,15 +139,15 @@ class PictureSelectionDialog(authority: String) : OptionDialog() {
             val saveUri = Uri.fromFile(file)
             uri = saveUri
             //调用裁剪
-            val options = UCrop.Options()
-            options.setCompressionFormat(Bitmap.CompressFormat.JPEG)
-            options.setCompressionQuality(50)
-            val crop = UCrop.of(sourceUri, saveUri)
-                .withAspectRatio(1f, 1f)
-                .withMaxResultSize(400, 400)
-                .withOptions(options)
-            if (activity != null) crop.start(activity)
-            if (fragment != null) crop.start(context, fragment)
+//            val options = UCrop.Options()
+//            options.setCompressionFormat(Bitmap.CompressFormat.JPEG)
+//            options.setCompressionQuality(50)
+//            val crop = UCrop.of(sourceUri, saveUri)
+//                .withAspectRatio(1f, 1f)
+//                .withMaxResultSize(400, 400)
+//                .withOptions(options)
+//            if (activity != null) crop.start(activity)
+//            if (fragment != null) crop.start(context, fragment)
         }
 
         fun onActivityResult(
@@ -164,7 +163,7 @@ class PictureSelectionDialog(authority: String) : OptionDialog() {
                         uri = data?.data
                         if (crop) navToCrop(uri) else listener.invoke()
                     }
-                    UCrop.REQUEST_CROP -> listener.invoke()
+//                    UCrop.REQUEST_CROP -> listener.invoke()
                 }
             }
         }
@@ -187,17 +186,15 @@ class PictureSelectionDialog(authority: String) : OptionDialog() {
         }
 
         private fun isPermissionGranted(permission: String): Boolean {
-            return Build.VERSION.SDK_INT < 23 || ActivityCompat.checkSelfPermission(
+            return ActivityCompat.checkSelfPermission(
                 context,
                 permission
             ) == PackageManager.PERMISSION_GRANTED
         }
 
         private fun requestPermission(permission: String, requestCode: Int) {
-            if (Build.VERSION.SDK_INT >= 23) {
-                fragment?.requestPermissions(arrayOf(permission), requestCode)
-                activity?.requestPermissions(arrayOf(permission), requestCode)
-            }
+            fragment?.requestPermissions(arrayOf(permission), requestCode)
+            activity?.requestPermissions(arrayOf(permission), requestCode)
         }
 
         fun getPicturePath(): String {

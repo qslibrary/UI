@@ -1,72 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/ppTwoLayerOption"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="20dp"
-        android:text="ppTwoLayerOption" />
+        android:text="Hello World!" />
 
-    <TextView
-        android:id="@+id/ppMultiOption"
-        android:layout_width="match_parent"
+    <com.shqiansha.ui.view.TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="20dp"
-        android:text="multiPopupOption" />
+        android:textColor="@color/white"
+        android:text="测试测试"
+        android:padding="10dp"
+        app:backgroundColor="#000"
+        app:radius="10dp"
+        app:bottomRightRadius="0dp"
+        android:layout_marginLeft="10dp"/>
 
-    <TextView
-        android:id="@+id/tvOption"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="20dp"
-        android:text="选项弹窗" />
-
-    <TextView
-        android:id="@+id/tvConfirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="20dp"
-        android:text="确认弹窗" />
-
-    <TextView
-        android:id="@+id/tvPicture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="20dp"
-        android:text="图片选则弹窗" />
-
-    <TextView
-        android:id="@+id/tvPicker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="20dp"
-        android:text="picker弹窗" />
-
-    <TextView
-        android:id="@+id/poOption"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="20dp"
-        android:text="popupOption" />
-
-    <com.shqiansha.ui.view.ItemView
-        android:id="@+id/uivTest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:leftText="你好"
-        app:rightText="你好"
-        app:showRightImage="true"
-        app:showRightText="false" />
 </LinearLayout>
