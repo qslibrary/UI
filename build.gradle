@@ -5,13 +5,3 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
     id 'maven-publish'
 }
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'com.shqiansha.ui'
-            artifactId = 'library'
-            version = '1'
-        }
-    }
-}
