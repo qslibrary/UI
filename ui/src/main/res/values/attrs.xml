@@ -36,10 +36,10 @@
         <attr name="borderColor" format="color" />
         <attr name="borderSize" format="dimension" />
         <attr name="radius" format="dimension" />
-        <attr name="topLeftRadius" format="dimension" />
-        <attr name="topRightRadius" format="dimension" />
-        <attr name="bottomLeftRadius" format="dimension" />
-        <attr name="bottomRightRadius" format="dimension" />
+        <attr name="radius_topLeft" format="dimension" />
+        <attr name="radius_topRight" format="dimension" />
+        <attr name="radius_bottomLeft" format="dimension" />
+        <attr name="radius_bottomRight" format="dimension" />
         <attr name="backgroundColor" format="color" />
         <attr name="backgroundShape" format="integer" >
             <enum name="rect" value="0" />
