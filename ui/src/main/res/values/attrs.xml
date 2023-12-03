@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="borderSize" format="dimension" />
+    <attr name="borderColor" format="color" />
+    <attr name="radius" format="dimension" />
+    <attr name="radius_topLeft" format="dimension" />
+    <attr name="radius_topRight" format="dimension" />
+    <attr name="radius_bottomRight" format="dimension" />
+    <attr name="radius_bottomLeft" format="dimension" />
+
     <declare-styleable name="ItemView">
         <attr name="leftText" format="string" />
         <attr name="leftTextSize" format="dimension" />
@@ -33,18 +41,29 @@
     </declare-styleable>
 
     <declare-styleable name="TextView">
-        <attr name="borderColor" format="color" />
-        <attr name="borderSize" format="dimension" />
-        <attr name="radius" format="dimension" />
-        <attr name="radius_topLeft" format="dimension" />
-        <attr name="radius_topRight" format="dimension" />
-        <attr name="radius_bottomLeft" format="dimension" />
-        <attr name="radius_bottomRight" format="dimension" />
+        <attr name="borderSize" />
+        <attr name="borderColor" />
+        <attr name="radius" />
+        <attr name="radius_topLeft" />
+        <attr name="radius_topRight" />
+        <attr name="radius_bottomRight" />
+        <attr name="radius_bottomLeft" />
         <attr name="backgroundColor" format="color" />
-        <attr name="backgroundShape" format="integer" >
+        <attr name="backgroundShape" format="integer">
             <enum name="rect" value="0" />
             <enum name="oval" value="1" />
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ImageView">
+        <attr name="url" format="string" />
+        <attr name="borderSize" />
+        <attr name="borderColor" />
+        <attr name="radius" />
+        <attr name="radius_topLeft" />
+        <attr name="radius_topRight" />
+        <attr name="radius_bottomRight" />
+        <attr name="radius_bottomLeft" />
     </declare-styleable>
 
 </resources>
