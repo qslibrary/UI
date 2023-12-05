@@ -26,12 +26,20 @@
     <com.shqiansha.ui.view.ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
         android:scaleType="centerCrop"
         app:borderColor="@color/design_default_color_error"
         app:borderSize="10dp"
         app:radius="10dp"
-        android:layout_marginLeft="10dp"
         app:url="https://picx.zhimg.com/70/v2-8553f8b9e218c0ba16efa9e036a25ab1_1440w.avis?source=172ae18b" />
 
-
+    <com.shqiansha.ui.view.EditView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="你好"
+        app:backgroundColor="@color/white"
+        app:borderColor="@color/black"
+        app:borderSize="2dp"
+        app:radius="4dp"/>
 </LinearLayout>
